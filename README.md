@@ -28,6 +28,6 @@ You might be familiar with Speakonia. As CFS-Technologies have released an unlim
 
 You can generate text from an API too, endpoints are `/VoiceLimitations?voice=(voice)` and `/SAPI4?text=(text)[&voice=(voice)][&pitch=(pitch)][&speed=(speed)]`. `()` - required parameters, `[]` - optional parameters.
 
-If the Microsoft Sam is very busy, you can scale SAPI4 running it multiple times with different ports but same voices. Run the single instance of web server with different ports but same names too.
+If the Microsoft Sam is very busy, you can scale SAPI4 by running it multiple times with different ports but same voices. Run the single instance of web server with different ports but same names too.
 
 It's possible to run a combination of SAPI4 server on Windows Server and web server on Linux server, without need of `wine`. You will need to modify `sapi4.cpp` to listen on `0.0.0.0` and firewall it to accept connections only from linux server.
