@@ -1,0 +1,57 @@
+extends layout
+
+block scripts
+	- immutable g_ScriptTTS = true;
+
+block head
+	- auto title = "Microsoft Sam TTS generator";
+	script.
+		async function sayTTS() {
+			let voice = document.getElementById("voice").value;
+			let text = document.getElementById("text").value;
+			let pitch = document.getElementById("pitch").value;
+			let speed = document.getElementById("speed").value;
+
+			await SAPI4.SayTTS(voice, text, pitch, speed);
+		}
+
+		async function getVoiceLimits() {
+			let limits = await SAPI4.VoiceLimitations(document.getElementById("voice").value);
+			let pitch = document.getElementById("pitch");
+			let speed = document.getElementById("speed");
+
+			pitch.setAttribute("min", limits.minPitch);
+			pitch.setAttribute("max", limits.maxPitch);
+			pitch.value = limits.defPitch;
+
+			speed.setAttribute("min", limits.minSpeed);
+			speed.setAttribute("max", limits.maxSpeed);
+			speed.value = limits.defSpeed;
+		}
+
+block contents
+	.audio
+		audio#audio(controls)
+			source#source(type="audio/wav")
+
+	.options
+		.voice
+			label(for="voice") Select voice:
+			select#voice(onchange="getVoiceLimits()")
+				option(value="Sam", selected) Microsoft Sam
+				option(value="Bonzi") Bonzi Buddy
+		
+		.pitch
+			label(for="pitch") Pitch:
+			input#pitch(type="number", min="50", max="200", value="100")
+
+		.speed
+			label(for="speed") Speed:
+			input#speed(type="number", min="30", max="450", value="150")
+
+	.text
+		textarea#text(rows="10", cols="80", maxlength="4095").
+			LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON
+	
+	.submit
+		button(type="button", onclick="sayTTS()") Say it

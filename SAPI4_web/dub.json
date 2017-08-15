@@ -1,0 +1,13 @@
+{
+	"name": "sapi4",
+	"authors": [
+		"User"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.8.1-beta.2",
+		"web-config": "~>1.1.0"
+	},
+	"description": "MSSAM",
+	"copyright": "Copyright © 2017, User",
+	"license": "proprietary"
+}

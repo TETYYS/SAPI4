@@ -1,0 +1,13 @@
+doctype html
+html
+	head
+		block scripts
+		- if (g_ScriptTTS)
+			script(src="/SAPI4/scripts/tts.js")
+		
+		block head
+		link(rel="stylesheet", href="/SAPI4/style.css")
+		title #{title}
+	body
+		h1= title
+		block contents
