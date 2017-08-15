@@ -22,7 +22,7 @@ Demo: https://tetyys.com/SAPI4
 1. Go to SAPI4_web and compile the web server: `dub build --build=release`.
 1. Run web server with currently running SAPI4 server(s): `./sapi4 --ports=[port1,[name1]:[port2],[name2]:...`, for example `./sapi4 --ports=60002,Sam:60003,Bonzi`.
 1. Pass the web server through nginx - add this to nginx config: `location ^~ /SAPI4/ { proxy_pass http://127.0.0.1:23451/; }`. Note that the web server will work only on `/SAPI4/` location, if you want to change that, change references to scripts and other assets in `SAPI4_web/views/layout.dt`, `SAPI4_web/public/scripts/tts.js`.
-1. Go to `http(s)://localhost/SAPI4/` and enjoy.
+1. Go to `http(s)://localhost/SAPI4/`, put `soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi soi` as text, set speed to 450 and enjoy.
 
 You might be familiar with Speakonia. As CFS-Technologies have released an unlimited license (http://www.cfs-technologies.com/home/) for Speakonia, you can get .wavs Microsoft Sam & other voice genereated text with Speakonia too, however web interface is more convenient and generates text much faster. Speakonia is set to generate text at real-time of speaking speed and SAPI4 server is set to generate text at x16777215 of real-time speaking speed. You can download .wavs from web interface too (right click the player and press `Save audio as...`, at least on Chrome).
 
