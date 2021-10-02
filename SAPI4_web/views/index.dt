@@ -4,32 +4,116 @@ block scripts
 	- immutable g_ScriptTTS = true;
 
 block head
-	- auto title = "Microsoft Sam TTS generator";
+	- auto title = "Online Microsoft Sam TTS Generator";
 	script.
-		async function sayTTS() {
-			let voice = document.getElementById("voice").value;
-			let text = document.getElementById("text").value;
-			let pitch = document.getElementById("pitch").value;
-			let speed = document.getElementById("speed").value;
 
-			await SAPI4.SayTTS(voice, text, pitch, speed);
+		var lastText = null;
+
+		function toggleButton(btn, enabled)
+		{
+			btn.disabled = !enabled;
+			if (enabled)
+				btn.classList.remove("disabled");
+			else
+				btn.classList.add("disabled");
 		}
 
-		async function getVoiceLimits() {
-			let limits = await SAPI4.VoiceLimitations(document.getElementById("voice").value);
+		async function sayTTS()
+		{
+			let submitBtn = document.getElementById("submit");
+			toggleButton(submitBtn, false); {
+				let voice = document.getElementById("voice").value;
+				let text = document.getElementById("text").value;
+				let pitch = document.getElementById("pitch").value;
+				let speed = document.getElementById("speed").value;
+
+				if (lastText === null || (
+					lastText.voice !== voice ||
+					lastText.text !== text ||
+					lastText.pitch !== pitch ||
+					lastText.speed !== speed)) {
+					await SAPI4.SayTTS(voice, text, pitch, speed);
+					lastText = { voice: voice, text: text, pitch: pitch, speed: speed };
+				} else {
+					await new Promise(x => setTimeout(x, 1000)); // Fake processing :)
+					let audio = document.getElementById("audio");
+					audio.pause();
+					audio.currentTime = 0;
+					audio.play();
+				}
+			} toggleButton(submitBtn, true);
+		}
+
+		async function getVoiceLimits()
+		{
+			let submitBtn = document.getElementById("submit");
+			toggleButton(submitBtn, false); {
+				let voice = document.getElementById("voice");
+				let limits;
+
+				if (voice.value == "Bonzi") {
+					voice.value = "Adult Male #2, American English (TruVoice)";
+					limits = { minPitch: 50, maxPitch: 400, minSpeed: 50, maxSpeed: 250, defPitch: 140, defSpeed: 157 };
+				} else
+					limits = await SAPI4.VoiceLimitations(voice.value);
+				
+				let pitch = document.getElementById("pitch");
+				let speed = document.getElementById("speed");
+
+				pitch.setAttribute("min", limits.minPitch);
+				pitch.setAttribute("max", limits.maxPitch);
+				pitch.value = limits.defPitch;
+
+				speed.setAttribute("min", limits.minSpeed);
+				speed.setAttribute("max", limits.maxSpeed);
+				speed.value = limits.defSpeed;
+			} toggleButton(submitBtn, true);
+		}
+
+		function forceVoiceLimits()
+		{
 			let pitch = document.getElementById("pitch");
 			let speed = document.getElementById("speed");
 
-			pitch.setAttribute("min", limits.minPitch);
-			pitch.setAttribute("max", limits.maxPitch);
-			pitch.value = limits.defPitch;
-
-			speed.setAttribute("min", limits.minSpeed);
-			speed.setAttribute("max", limits.maxSpeed);
-			speed.value = limits.defSpeed;
+			pitch.value = Math.max(parseInt(pitch.getAttribute("min")), parseInt(pitch.value));
+			pitch.value = Math.min(parseInt(pitch.getAttribute("max")), parseInt(pitch.value));
+			speed.value = Math.max(parseInt(speed.getAttribute("min")), parseInt(speed.value));
+			speed.value = Math.min(parseInt(speed.getAttribute("max")), parseInt(speed.value));
 		}
 
-block contents
+		async function contentLoaded()
+		{
+			await getVoiceLimits();
+		}
+
+		document.addEventListener("DOMContentLoaded", contentLoaded, false);
+
+block description
+	h3 About
+	p Microsoft Sam TTS Generator is an online interface for part of Microsoft Speech API 4.0 which was released in 1998.
+	h3 Usage
+	ol
+		li Select your voice. Note that BonziBUDDY voice is actually an "Adult Male #2" with a specific pitch and speed.
+
+		li Select your pitch and speed. All voices have lower and upper pitch and speed limits.
+
+		li Enter your text and press "Say it". Wait for generated audio appear in audio player. It should be done nearly instantly, as the interface tries to generate audio at x255 real-time.
+
+		li To save generated audio, right click on audio player and press "Save audio as..."
+	h3 Privacy Policy
+	p This section is used to inform website visitors regarding policies with the collection, use, and disclosure of Personal Information if anyone decided to use this service.
+	p If you choose to use this service, then you agree to the collection and use of information in relation with this policy. The Personal Information that we collect are used for providing and improving this service.
+	p We want to inform you that whenever you use this service, we collect information that your browser sends to us. This information may include information such as your computer’s Internet Protocol (“IP”) address, browser version, the time and date of your visit, input text and other settings.
+	p We may employ third-party companies and individuals due to the following reasons:
+	ol
+		li To facilitate our Service;
+		li To provide the Service on our behalf;
+		li To perform Service-related services; or
+		li To assist us in analyzing how our Service is used.
+	p We want to inform our Service users that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are not obligated not to disclose or use the information for any other purpose.
+
+block generator
+	h1= title
 	.audio
 		audio#audio(controls)
 			source#source(type="audio/wav")
@@ -38,20 +122,21 @@ block contents
 		.voice
 			label(for="voice") Select voice:
 			select#voice(onchange="getVoiceLimits()")
-				option(value="Sam", selected) Microsoft Sam
-				option(value="Bonzi") Bonzi Buddy
+				- foreach (voice; voices)
+					option(value="#{ voice }", selected=(voice == "Sam" ? "selected" : null)) #{ voice }
+				
+				option(value="Bonzi") BonziBUDDY
 		
 		.pitch
 			label(for="pitch") Pitch:
-			input#pitch(type="number", min="50", max="200", value="100")
+			input#pitch(type="number", onblur="forceVoiceLimits()")
 
 		.speed
 			label(for="speed") Speed:
-			input#speed(type="number", min="30", max="450", value="150")
+			input#speed(type="number", onblur="forceVoiceLimits()")
 
 	.text
 		textarea#text(rows="10", cols="80", maxlength="4095").
-			LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON LON
-	
+			soi soi soi
 	.submit
-		button(type="button", onclick="sayTTS()") Say it
+		button#submit(type="button", onclick="sayTTS()") Say it

@@ -5,9 +5,24 @@ html
 		- if (g_ScriptTTS)
 			script(src="/SAPI4/scripts/tts.js")
 		
+		script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-112055708-1")
+		script.
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-112055708-1');
+
+
 		block head
 		link(rel="stylesheet", href="/SAPI4/style.css")
 		title #{title}
+		meta(charset="UTF-8")
+		meta(name="description", content="Online Microsoft SAM, SAPI4, Bonzi Buddy Text to speech generator")
+		meta(name="keywords", content="Microsoft Sam,BonziBUDDY,bonzi buddy,sapi4,speakonia,bonzi buddy text to speech online,online microsoft sam,voice generator,voice,text to speech")
+		link(rel="shortcut icon", type="image/ico", href="/SAPI4/favicon.ico")
 	body
-		h1= title
-		block contents
+		.content
+			.description
+				block description
+			.generator
+				block generator

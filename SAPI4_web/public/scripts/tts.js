@@ -5,7 +5,18 @@ var SAPI4 =
 		pitch = parseInt(pitch);
 		speed = parseInt(speed);
 
-		let wav = await fetch("/SAPI4/SAPI4?text=" + encodeURIComponent(text) + "&voice=" + encodeURIComponent(voice) + "&pitch=" + pitch + "&speed=" + speed);
+		let url = "/SAPI4/SAPI4?text=" + encodeURIComponent(text) + "&voice=" + encodeURIComponent(voice) + "&pitch=" + pitch + "&speed=" + speed;
+
+		if (url.length > 4088) {
+			alert("Text too long");
+			return;
+		}
+
+		let wav = await fetch(url);
+		if (wav.status != 200) {
+			alert(await wav.text());
+			return;
+		}
 		let blobUrl = URL.createObjectURL(await wav.blob());
 		document.getElementById("source").setAttribute("src", blobUrl);
 		let audio = document.getElementById("audio");
@@ -16,7 +27,7 @@ var SAPI4 =
 
 	VoiceLimitations: async function(voice)
 	{
-		let wav = await fetch("/SAPI4/VoiceLimitations?voice=" + voice);
+		let wav = await fetch("/SAPI4/VoiceLimitations?voice=" + encodeURIComponent(voice));
 		return wav.json();
 	}
 }
