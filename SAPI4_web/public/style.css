@@ -1,6 +1,22 @@
 body {
+    font-family: Open Sans,Arial;
+}
+
+.content {
+    display: flex;
+}
+
+.generator {
     text-align: center;
-    font-family: Roboto,"Segoe UI",sans-serif;
+	flex: 0 0 70%;
+    max-width: 70%;
+}
+
+.description {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 5px;
+	flex: 0 0 30%;
+    max-width: 30%;
 }
 
 audio {
@@ -14,7 +30,7 @@ audio {
 
 label {
     display: inline-block;
-    width: 87px;
+    width: 91px;
     text-align: right;
 }
 
@@ -23,27 +39,34 @@ label {
 }
 
 select {
-    width: 124px;
+    width: 300px;
 }
 
 input {
-    width: 120px;
+    width: 296px;
+}
+
+button.disabled {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+    opacity: .65;
 }
 
 button {
-    background: linear-gradient(#eee, #e2e2e2);
-    border: solid 1px #d0d0d0;
-    border-bottom: solid 3px #b2b1b1;
-    box-shadow: inset 0 0 0 1px #f5f5f5;
-    color: #555;
-    padding: 10px 20px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
     
 button:hover {
     background: linear-gradient(#e4e4e4, #ededed);
     cursor: pointer;
 }
-    
+
 button:active {
     background: linear-gradient(#dfdfdf, #e3e3e3);
     border: solid 1px #959595;
