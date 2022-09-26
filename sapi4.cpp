@@ -163,7 +163,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call) {
 		case DLL_PROCESS_ATTACH:
 		case DLL_THREAD_ATTACH:
-			srand((UINT)time(NULL));
+			LARGE_INTEGER ticks;
+			QueryPerformanceCounter(&ticks);
+			srand(ticks.QuadPart);
 
 			if (!BeginOLE())
 				return FALSE;
