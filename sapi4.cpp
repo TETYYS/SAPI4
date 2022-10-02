@@ -294,7 +294,7 @@ extern __declspec(dllexport) BOOL InitializeForVoice(
 		return FALSE;
 	}
 	
-	pVoiceInfo->pIAF->RealTimeSet(0xFFFF);
+	pVoiceInfo->pIAF->RealTimeSet(TTSATTR_MAXREALTIME);
 
 	if (FAILED(pVoiceInfo->pITTSCentral->QueryInterface(IID_ITTSAttributes, (void**)&(pVoiceInfo->pITTSAttributes)))) {
 		return FALSE;
