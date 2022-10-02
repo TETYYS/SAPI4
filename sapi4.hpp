@@ -50,7 +50,7 @@ extern __declspec(dllexport) BOOL GetTTS(
 	DWORD Speed,
 	LPCSTR Text,
 	PUINT64 Len,
-	LPSTR* OutText
+	LPSTR* OutFile
 );
 
 extern __declspec(dllexport) VOID DeinitializeForVoice(
