@@ -142,23 +142,15 @@ class SAMService
 				return;
 			}
 
-			logInfo("pre pipe");
-
 			auto proc = pipeProcess(["sapi4out.exe", voice, to!string(pitch), to!string(speed), cast(string)text], Redirect.all);
-
-			logInfo("post pipe");
 
 			auto executedAt = Clock.currTime;
 			auto wait = tryWait(proc.pid);
-
-			logInfo("post wait");
 
 			while (!wait.terminated && Clock.currTime - executedAt < dur!"seconds"(10)) {
 				wait = tryWait(proc.pid);
 				sleep(dur!"msecs"(100));
 			}
-
-			logInfo("done waiting");
 
 			if (!wait.terminated) {
 				kill(proc.pid);
@@ -168,8 +160,6 @@ class SAMService
 				res.writeBody("Please reformat your text", 400);
 				return;
 			}
-
-			logInfo("pre outp");
 			
 			string outputErr;
 			foreach (line; proc.stderr.byLine)
@@ -179,15 +169,14 @@ class SAMService
 			foreach (line; proc.stdout.byLine)
 				output ~= line.idup;
 			
-			logInfo("got outp \"" ~ outputErr ~ "\"");
+			if (outputErr != "")
+				logInfo("got error output \"" ~ outputErr ~ "\"");
 
 			auto file = output.replace("err:xrandr:xrandr12_init_modes Failed to get primary CRTC info.", "").strip();
 
 			if (file == "") {
 				core.stdc.stdlib.exit(1);
 			}
-
-			logInfo("pre openfile");
 
 			auto fs = openFile(file, FileMode.read);
 
