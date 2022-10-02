@@ -16,8 +16,9 @@ int main(int argc, char** argv)
 
 	UINT64 Len;
 	
-	LPSTR outFile[17];
+	LPSTR outFile = (LPSTR)malloc(17);
 	GetTTS(&VoiceInfo, atoi(argv[2]), atoi(argv[3]), argv[4], &Len, &outFile);
 	
 	printf("%s\n", outFile);
+	free(outFile);
 }
