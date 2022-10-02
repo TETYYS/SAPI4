@@ -228,21 +228,21 @@ extern __declspec(dllexport) BOOL GetTTS(
 	WORD Pitch,
 	DWORD Speed,
 	LPCSTR Text,
-	PUINT64 Len
+	PUINT64 Len,
+	LPSTR* OutFile
 )
 {
 	WCHAR wszFile[17] = L"";
-	char rndFile[17] = "";
 	for (int x = 0;x < 16;x++) {
 		if (rand() % 2 == 0)
-			rndFile[x] = 'A' + (rand() % 26);
+			(*OutFile)[x] = 'A' + (rand() % 26);
 		else
-			rndFile[x] = 'a' + (rand() % 26);
+			(*OutFile)[x] = 'a' + (rand() % 26);
 	}
 	
-	printf("%s\n", rndFile);
+	(*OutFile)[16] = '\0';
 
-	MultiByteToWideChar(CP_ACP, 0, rndFile, -1, wszFile, sizeof(wszFile) / sizeof(WCHAR));
+	MultiByteToWideChar(CP_ACP, 0, *OutFile, -1, wszFile, sizeof(wszFile) / sizeof(WCHAR));
 	if (pVoiceInfo->pIAF->Set(wszFile, 1)) {
 		return FALSE;
 	}
