@@ -4,7 +4,7 @@
 		"User"
 	],
 	"dependencies": {
-		"vibe-d": "~>0.8.1-beta.2",
+		"vibe-d": "~>0.9.5",
 		"web-config": "~>1.1.0"
 	},
 	"description": "MSSAM",
