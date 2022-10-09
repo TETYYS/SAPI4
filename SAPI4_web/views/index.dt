@@ -97,7 +97,7 @@ block description
 
 		li Select your pitch and speed. All voices have lower and upper pitch and speed limits.
 
-		li Enter your text and press "Say it". Wait for generated audio appear in audio player. It should be done nearly instantly, as the interface tries to generate audio at x255 real-time.
+		li Enter your text and press "Say it". Wait for generated audio appear in audio player. It should be done nearly instantly, as the interface tries to generate audio at x16777215 real-time.
 
 		li To save generated audio, right click on audio player and press "Save audio as..."
 	h3 Privacy Policy
