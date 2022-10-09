@@ -138,7 +138,7 @@ class SAMService
 			}
 
 			if (speed > sam.maxSpeed || speed < sam.minSpeed) {
-				res.writeBody("Available speed: [" ~ to!string(sam.minPitch) ~ "; " ~ to!string(sam.maxPitch) ~ "], got " ~ to!string(speed), 400);
+				res.writeBody("Available speed: [" ~ to!string(sam.minSpeed) ~ "; " ~ to!string(sam.maxSpeed) ~ "], got " ~ to!string(speed), 400);
 				return;
 			}
 
