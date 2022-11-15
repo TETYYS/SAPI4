@@ -34,5 +34,3 @@ to a new empty folder
 You might be familiar with Speakonia. As CFS-Technologies have released an unlimited license (http://www.cfs-technologies.com/home/) for Speakonia, you can get .wavs Microsoft Sam & other voices genereated text with Speakonia too, however web interface is more convenient and generates text much faster. Speakonia is set to generate text at real-time of speaking speed and SAPI4 server is set to generate text at x16777215 of real-time speaking speed. You can download .wavs from web interface too (right click the player and press `Save audio as...`, at least on Chrome).
 
 You can generate text from an API too, endpoints are `/SAPI4/VoiceLimitations?voice=(voice)` and `/SAPI4/SAPI4?text=(text)[&voice=(voice)][&pitch=(pitch)][&speed=(speed)]`. `()` - required parameters, `[]` - optional parameters.
-
-It's possible to run a combination of SAPI4 server on Windows Server and web server on Linux server, without need of `wine`. You will need to modify `sapi4.cpp` to listen on `0.0.0.0` and firewall it to accept connections only from linux server.
