@@ -28,16 +28,16 @@ typedef CTestNotify *PCTestNotify;
 
 
 typedef struct _VOICE_INFO {
-	PITTSCENTRAL	pITTSCentral = NULL;
+	PITTSCENTRAL	pITTSCentral;
 	TTSMODEINFO		ModeInfo;
-	PIAUDIOFILE		pIAF = NULL;
-	PITTSATTRIBUTES	pITTSAttributes = NULL;
+	PIAUDIOFILE		pIAF;
+	PITTSATTRIBUTES	pITTSAttributes;
 
 	WORD defPitch, minPitch, maxPitch;
 	DWORD defSpeed, minSpeed, maxSpeed;
 
 	PCTestNotify pNotify;
-	BOOL VoiceDone = FALSE;
+	BOOL VoiceDone;
 } VOICE_INFO, *PVOICE_INFO;
 
 extern __declspec(dllexport) VOID TTSCleanup(

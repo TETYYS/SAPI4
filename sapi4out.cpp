@@ -10,6 +10,7 @@
 int main(int argc, char** argv)
 {
 	VOICE_INFO VoiceInfo;
+	memset((void *)&VoiceInfo, 0, sizeof(VoiceInfo));
 	if (!InitializeForVoice(argv[1], &VoiceInfo)) {
 		return 0;
 	}
