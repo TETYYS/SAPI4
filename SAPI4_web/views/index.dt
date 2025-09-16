@@ -4,7 +4,7 @@ block scripts
 	- immutable g_ScriptTTS = true;
 
 block head
-	- auto title = "Online Microsoft Sam TTS Generator";
+	- auto title = "get hacked lol";
 	script.
 
 		var lastText = null;
